@@ -1,0 +1,18 @@
+#PAYARA FULL
+cd /opt/payara-full-6.2023.4/glassfish/bin
+./asadmin start-domain
+tail -f /opt/payara-full-6.2023.4/glassfish/domains/domain1/logs/server.log
+
+#BAZA
+cd /opt/hsqldb-2.7.1/hsqldb/data
+
+sudo java -classpath ../lib/hsqldb.jar org.hsqldb.server.Server \
+--database.0 file:nwtis_3 --dbname.0 nwtis_3 --port 9001
+
+#AP1
+java -cp target/moroz_aplikacija_1-1.0.0.jar org.foi.nwtis.moroz.projekt.PokretacPosluzitelja NWTiS_moroz_3.txt
+
+java -cp target/moroz_aplikacija_1-1.0.0.jar org.foi.nwtis.moroz.projekt.GlavniKlijent
+
+
+docker logs -f moroz_payara_micro --since 1m
